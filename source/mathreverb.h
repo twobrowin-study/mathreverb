@@ -1,66 +1,69 @@
-MathReverb#pragma once
+#pragma once
 
-// must always come first
-#include "public.sdk/source/vst/vstsinglecomponenteffect.h"
-//------------------------------------------------------------------------
-
-#include "public.sdk/source/vst/vstguieditor.h"
-#include "pluginterfaces/vst/ivstcontextmenu.h"
-#include "pluginterfaces/vst/ivstplugview.h"
-
-#include "vstgui/plugin-bindings/vst3editor.h"
+#include "public.sdk/source/vst/vstaudioeffect.h"
 
 namespace Steinberg {
 namespace Vst {
 
-template <typename T>
-class MathReverbUIMessageController;
-
 //------------------------------------------------------------------------
-// MathReverb as combined processor and controller
+// MathReverb: directly derived from the helper class AudioEffect
 //------------------------------------------------------------------------
-class MathReverb : public SingleComponentEffect, public VST3EditorDelegate
+class MathReverb : public AudioEffect
 {
 public:
-//------------------------------------------------------------------------
-	typedef MathReverbUIMessageController<MathReverb> UIMessageController;
-
 	MathReverb ();
+	virtual ~MathReverb (); // do not forget virtual here
 
-	static FUnknown* createInstance (void* context) { return (IAudioProcessor*)new AGainSimple; }
+	//--- ---------------------------------------------------------------------
+	// create function required for Plug-in factory,
+	// it will be called to create new instances of this Plug-in
+	//--- ---------------------------------------------------------------------
+	static FUnknown* createInstance (void* /*context*/) { return (IAudioProcessor*)new MathReverb; }
 
+	//--- ---------------------------------------------------------------------
+	// AudioEffect overrides:
+	//--- ---------------------------------------------------------------------
+	/** Called at first after constructor */
 	tresult PLUGIN_API initialize (FUnknown* context) SMTG_OVERRIDE;
+
+	/** Called at the end before destructor */
 	tresult PLUGIN_API terminate () SMTG_OVERRIDE;
+
+	/** Switch the Plug-in on/off */
 	tresult PLUGIN_API setActive (TBool state) SMTG_OVERRIDE;
+
+	/** Here we go...the process call */
 	tresult PLUGIN_API process (ProcessData& data) SMTG_OVERRIDE;
+
+	/** Test of a communication channel between controller and component */
+	tresult receiveText (const char* text) SMTG_OVERRIDE;
+
+	/** For persistence */
 	tresult PLUGIN_API setState (IBStream* state) SMTG_OVERRIDE;
 	tresult PLUGIN_API getState (IBStream* state) SMTG_OVERRIDE;
+
+	/** Will be called before any process call */
 	tresult PLUGIN_API setupProcessing (ProcessSetup& newSetup) SMTG_OVERRIDE;
+
+	/** Bus arrangement managing: in this example the 'mathreverb' will be mono for mono input/output and
+	 * stereo for other arrangements. */
 	tresult PLUGIN_API setBusArrangements (SpeakerArrangement* inputs, int32 numIns,
 	                                       SpeakerArrangement* outputs,
 	                                       int32 numOuts) SMTG_OVERRIDE;
 
-	IPlugView* PLUGIN_API createView (const char* name) SMTG_OVERRIDE;
-	tresult PLUGIN_API setEditorState (IBStream* state) SMTG_OVERRIDE;
-	tresult PLUGIN_API getEditorState (IBStream* state) SMTG_OVERRIDE;
-	tresult PLUGIN_API setParamNormalized (ParamID tag, ParamValue value) SMTG_OVERRIDE;
-	tresult PLUGIN_API getParamStringByValue (ParamID tag, ParamValue valueNormalized,
-	                                          String128 string) SMTG_OVERRIDE;
-	tresult PLUGIN_API getParamValueByString (ParamID tag, TChar* string,
-	                                          ParamValue& valueNormalized) SMTG_OVERRIDE;
+	/** Asks if a given sample size is supported see \ref SymbolicSampleSizes. */
+	tresult PLUGIN_API canProcessSampleSize (int32 symbolicSampleSize) SMTG_OVERRIDE;
 
-	//---from VST3EditorDelegate-----------
-	IController* createSubController (UTF8StringPtr name, const IUIDescription* description,
-	                                  VST3Editor* editor) SMTG_OVERRIDE;
-
-	//---Internal functions-------
-	void addUIMessageController (UIMessageController* controller);
-	void removeUIMessageController (UIMessageController* controller);
-	void setDefaultMessageText (String128 text);
-	TChar* getDefaultMessageText ();
+	/** We want to receive message. */
+	tresult PLUGIN_API notify (IMessage* message) SMTG_OVERRIDE;
 
 //------------------------------------------------------------------------
-private:
+protected:
+	//==============================================================================
+	template <typename SampleType>
+	SampleType processAudio (SampleType** input, SampleType** output, int32 numChannels,
+	                         int32 sampleFrames, float gain);
+
 	// our model values
 	float fGain;
 	float fGainReduction;
@@ -70,11 +73,6 @@ private:
 
 	bool bHalfGain;
 	bool bBypass;
-
-	typedef std::vector<UIMessageController*> UIMessageControllerList;
-	UIMessageControllerList uiMessageControllers;
-
-	String128 defaultMessageText;
 };
 
 //------------------------------------------------------------------------

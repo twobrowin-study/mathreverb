@@ -5,7 +5,7 @@ namespace Vst {
 
 //------------------------------------------------------------------------
 template <typename SampleType>
-SampleType MAthreverb::processAudio (SampleType** in, SampleType** out, int32 numChannels,
+SampleType MathReverb::processAudio (SampleType** in, SampleType** out, int32 numChannels,
                                      int32 sampleFrames, float gain)
 {
 	SampleType vuPPM = 0;
