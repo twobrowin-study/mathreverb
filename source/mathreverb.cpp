@@ -1,42 +1,6 @@
-//------------------------------------------------------------------------
-// Project     : VST SDK
-//
-// Category    : Examples
-// Filename    : public.sdk/samples/vst/again/source/againsimple.cpp
-// Created by  : Steinberg, 04/2005
-// Description : AGain Example for VST SDK 3.0
-//
-//-----------------------------------------------------------------------------
-// LICENSE
-// (c) 2017, Steinberg Media Technologies GmbH, All Rights Reserved
-//-----------------------------------------------------------------------------
-// Redistribution and use in source and binary forms, with or without modification,
-// are permitted provided that the following conditions are met:
-// 
-//   * Redistributions of source code must retain the above copyright notice, 
-//     this list of conditions and the following disclaimer.
-//   * Redistributions in binary form must reproduce the above copyright notice,
-//     this list of conditions and the following disclaimer in the documentation 
-//     and/or other materials provided with the distribution.
-//   * Neither the name of the Steinberg Media Technologies nor the names of its
-//     contributors may be used to endorse or promote products derived from this 
-//     software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-// ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-// WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-// IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-// INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
-// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
-// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
-// OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
-// OF THE POSSIBILITY OF SUCH DAMAGE.
-//-----------------------------------------------------------------------------
-
-#include "againsimple.h"
-#include "againparamids.h"
-#include "againuimessagecontroller.h"
+#include "mathreverb.h"
+#include "mathreverbparamids.h"
+#include "mathreverbuimessagecontroller.h"
 #include "version.h" // for versionning
 
 #include "public.sdk/source/main/pluginfactoryvst3.h"
@@ -51,8 +15,8 @@
 #include <math.h>
 #include <stdio.h>
 
-// this allows to enable the communication example between again and its controller
-#define AGAIN_TEST 1
+// this allows to enable the communication example between mathreverb and its controller
+#define MATHREVERB_TEST 1
 
 namespace Steinberg {
 namespace Vst {
@@ -119,7 +83,7 @@ bool GainParameter::fromString (const TChar* string, ParamValue& normValue) cons
 //------------------------------------------------------------------------
 // AGain Implementation
 //------------------------------------------------------------------------
-AGainSimple::AGainSimple ()
+MathReverb::MathReverb ()
 : fGain (1.f)
 , fGainReduction (0.f)
 , fVuPPMOld (0.f)
@@ -130,7 +94,7 @@ AGainSimple::AGainSimple ()
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API AGainSimple::initialize (FUnknown* context)
+tresult PLUGIN_API MathReverb::initialize (FUnknown* context)
 {
 	tresult result = SingleComponentEffect::initialize (context);
 	if (result != kResultOk)
@@ -173,19 +137,19 @@ tresult PLUGIN_API AGainSimple::initialize (FUnknown* context)
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API AGainSimple::terminate ()
+tresult PLUGIN_API MathReverb::terminate ()
 {
 	return SingleComponentEffect::terminate ();
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API AGainSimple::setActive (TBool state)
+tresult PLUGIN_API MathReverb::setActive (TBool state)
 {
-#if AGAIN_TEST
+#if MATHREVERB_TEST
 	if (state)
-		fprintf (stderr, "[AGainSimple] Activated \n");
+		fprintf (stderr, "[MathReverb] Activated \n");
 	else
-		fprintf (stderr, "[AGainSimple] Deactivated \n");
+		fprintf (stderr, "[MathReverb] Deactivated \n");
 #endif
 
 	// reset the VuMeter value
@@ -195,7 +159,7 @@ tresult PLUGIN_API AGainSimple::setActive (TBool state)
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API AGainSimple::process (ProcessData& data)
+tresult PLUGIN_API MathReverb::process (ProcessData& data)
 {
 	// finally the process function
 	// In this example there are 4 steps:
@@ -390,7 +354,7 @@ tresult PLUGIN_API AGainSimple::process (ProcessData& data)
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API AGainSimple::setState (IBStream* state)
+tresult PLUGIN_API MathReverb::setState (IBStream* state)
 {
 	// we receive the current  (processor part)
 	if (state)
@@ -418,7 +382,7 @@ tresult PLUGIN_API AGainSimple::setState (IBStream* state)
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API AGainSimple::getState (IBStream* state)
+tresult PLUGIN_API MathReverb::getState (IBStream* state)
 {
 	float savedGain = fGain;
 	float savedGainReduction = fGainReduction;
@@ -433,7 +397,7 @@ tresult PLUGIN_API AGainSimple::getState (IBStream* state)
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API AGainSimple::setupProcessing (ProcessSetup& newSetup)
+tresult PLUGIN_API MathReverb::setupProcessing (ProcessSetup& newSetup)
 {
 	currentProcessMode = newSetup.processMode;
 
@@ -441,7 +405,7 @@ tresult PLUGIN_API AGainSimple::setupProcessing (ProcessSetup& newSetup)
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API AGainSimple::setBusArrangements (SpeakerArrangement* inputs, int32 numIns,
+tresult PLUGIN_API MathReverb::setBusArrangements (SpeakerArrangement* inputs, int32 numIns,
                                                     SpeakerArrangement* outputs, int32 numOuts)
 {
 	if (numIns == 1 && numOuts == 1)
@@ -479,19 +443,19 @@ tresult PLUGIN_API AGainSimple::setBusArrangements (SpeakerArrangement* inputs, 
 }
 
 //------------------------------------------------------------------------
-IPlugView* PLUGIN_API AGainSimple::createView (const char* name)
+IPlugView* PLUGIN_API MathReverb::createView (const char* name)
 {
 	// someone wants my editor
 	if (name && strcmp (name, ViewType::kEditor) == 0)
 	{
-		VST3Editor* view = new VST3Editor (this, "view", "again.uidesc");
+		VST3Editor* view = new VST3Editor (this, "view", "mathreverb.uidesc");
 		return view;
 	}
 	return 0;
 }
 
 //------------------------------------------------------------------------
-IController* AGainSimple::createSubController (UTF8StringPtr name,
+IController* MathReverb::createSubController (UTF8StringPtr name,
                                                const IUIDescription* description,
                                                VST3Editor* editor)
 {
@@ -505,7 +469,7 @@ IController* AGainSimple::createSubController (UTF8StringPtr name,
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API AGainSimple::setEditorState (IBStream* state)
+tresult PLUGIN_API MathReverb::setEditorState (IBStream* state)
 {
 	tresult result = kResultFalse;
 
@@ -531,7 +495,7 @@ tresult PLUGIN_API AGainSimple::setEditorState (IBStream* state)
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API AGainSimple::getEditorState (IBStream* state)
+tresult PLUGIN_API MathReverb::getEditorState (IBStream* state)
 {
 	// here we can save UI settings for example
 
@@ -544,7 +508,7 @@ tresult PLUGIN_API AGainSimple::getEditorState (IBStream* state)
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API AGainSimple::setParamNormalized (ParamID tag, ParamValue value)
+tresult PLUGIN_API MathReverb::setParamNormalized (ParamID tag, ParamValue value)
 {
 	// called from host to update our parameters state
 	tresult result = SingleComponentEffect::setParamNormalized (tag, value);
@@ -552,27 +516,27 @@ tresult PLUGIN_API AGainSimple::setParamNormalized (ParamID tag, ParamValue valu
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API AGainSimple::getParamStringByValue (ParamID tag, ParamValue valueNormalized,
+tresult PLUGIN_API MathReverb::getParamStringByValue (ParamID tag, ParamValue valueNormalized,
                                                        String128 string)
 {
 	return SingleComponentEffect::getParamStringByValue (tag, valueNormalized, string);
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API AGainSimple::getParamValueByString (ParamID tag, TChar* string,
+tresult PLUGIN_API MathReverb::getParamValueByString (ParamID tag, TChar* string,
                                                        ParamValue& valueNormalized)
 {
 	return SingleComponentEffect::getParamValueByString (tag, string, valueNormalized);
 }
 
 //------------------------------------------------------------------------
-void AGainSimple::addUIMessageController (UIMessageController* controller)
+void MathReverb::addUIMessageController (UIMessageController* controller)
 {
 	uiMessageControllers.push_back (controller);
 }
 
 //------------------------------------------------------------------------
-void AGainSimple::removeUIMessageController (UIMessageController* controller)
+void MathReverb::removeUIMessageController (UIMessageController* controller)
 {
 	UIMessageControllerList::const_iterator it =
 	    std::find (uiMessageControllers.begin (), uiMessageControllers.end (), controller);
@@ -581,14 +545,14 @@ void AGainSimple::removeUIMessageController (UIMessageController* controller)
 }
 
 //------------------------------------------------------------------------
-void AGainSimple::setDefaultMessageText (String128 text)
+void MathReverb::setDefaultMessageText (String128 text)
 {
 	UString str (defaultMessageText, 128);
 	str.assign (text, -1);
 }
 
 //------------------------------------------------------------------------
-TChar* AGainSimple::getDefaultMessageText ()
+TChar* MathReverb::getDefaultMessageText ()
 {
 	return defaultMessageText;
 }
@@ -624,20 +588,20 @@ bool DeinitModule ()
 }
 
 //------------------------------------------------------------------------
-BEGIN_FACTORY_DEF ("Steinberg Media Technologies", 
-				   "http://www.steinberg.net", 
-				   "mailto:info@steinberg.de")
+BEGIN_FACTORY_DEF ("BMSTU dev by Dubrovin Egor",
+				   "http://www.bmstu.ru",
+				   "dubrovin.en@gmail.com")
 
 	//---First Plug-in included in this factory-------
 	// its kVstAudioEffectClass component
 	DEF_CLASS2 (INLINE_UID (0xB9F9ADE1, 0xCD9C4B6D, 0xA57E61E3, 0x123535FD),
-				PClassInfo::kManyInstances,					// cardinality  
+				PClassInfo::kManyInstances,					// cardinality
 				kVstAudioEffectClass,						// the component category (dont changed this)
-				"AGainSimple VST3",							// here the Plug-in name (to be changed)
+				"MathReverb VST3",							// here the Plug-in name (to be changed)
 				0,											// single component effects can not be destributed so this is zero
 				"Fx",										// Subcategory for this Plug-in (to be changed)
 				FULL_VERSION_STR,							// Plug-in version (to be changed)
 				kVstVersionString,							// the VST 3 SDK version (dont changed this, use always this define)
-				Steinberg::Vst::AGainSimple::createInstance)// function pointer called when this component should be instantiated
+				Steinberg::Vst::MathReverb::createInstance)// function pointer called when this component should be instantiated
 
 END_FACTORY

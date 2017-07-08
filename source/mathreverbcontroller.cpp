@@ -1,42 +1,6 @@
-//------------------------------------------------------------------------
-// Project     : VST SDK
-//
-// Category    : Examples
-// Filename    : public.sdk/samples/vst/again/source/againcontroller.cpp
-// Created by  : Steinberg, 04/2005
-// Description : AGain Controller Example for VST 3
-//
-//-----------------------------------------------------------------------------
-// LICENSE
-// (c) 2017, Steinberg Media Technologies GmbH, All Rights Reserved
-//-----------------------------------------------------------------------------
-// Redistribution and use in source and binary forms, with or without modification,
-// are permitted provided that the following conditions are met:
-// 
-//   * Redistributions of source code must retain the above copyright notice, 
-//     this list of conditions and the following disclaimer.
-//   * Redistributions in binary form must reproduce the above copyright notice,
-//     this list of conditions and the following disclaimer in the documentation 
-//     and/or other materials provided with the distribution.
-//   * Neither the name of the Steinberg Media Technologies nor the names of its
-//     contributors may be used to endorse or promote products derived from this 
-//     software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-// ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-// WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-// IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-// INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
-// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
-// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
-// OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
-// OF THE POSSIBILITY OF SUCH DAMAGE.
-//-----------------------------------------------------------------------------
-
-#include "againcontroller.h"
-#include "againparamids.h"
-#include "againuimessagecontroller.h"
+#include "mathreverbcontroller.h"
+#include "mathreverbparamids.h"
+#include "mathreverbuimessagecontroller.h"
 
 #include "pluginterfaces/base/ibstream.h"
 #include "pluginterfaces/base/ustring.h"
@@ -72,13 +36,13 @@ GainParameter::GainParameter (int32 flags, int32 id)
 {
 	Steinberg::UString (info.title, USTRINGSIZE (info.title)).assign (USTRING ("Gain"));
 	Steinberg::UString (info.units, USTRINGSIZE (info.units)).assign (USTRING ("dB"));
-	
+
 	info.flags = flags;
 	info.id = id;
 	info.stepCount = 0;
 	info.defaultNormalizedValue = 0.5f;
 	info.unitId = kRootUnitId;
-	
+
 	setNormalized (1.f);
 }
 
@@ -118,9 +82,9 @@ bool GainParameter::fromString (const TChar* string, ParamValue& normValue) cons
 }
 
 //------------------------------------------------------------------------
-// AGainController Implementation
+// MathReverbController Implementation
 //------------------------------------------------------------------------
-tresult PLUGIN_API AGainController::initialize (FUnknown* context)
+tresult PLUGIN_API MathReverbController::initialize (FUnknown* context)
 {
 	tresult result = EditControllerEx1::initialize (context);
 	if (result != kResultOk)
@@ -137,23 +101,23 @@ tresult PLUGIN_API AGainController::initialize (FUnknown* context)
 	unitInfo.parentUnitId = kNoParentUnitId;	// always for Root Unit
 	Steinberg::UString (unitInfo.name, USTRINGSIZE (unitInfo.name)).assign (USTRING ("Root"));
 	unitInfo.programListId = kNoProgramListId;
-	
+
 	unit = new Unit (unitInfo);
 	addUnitInfo (unit);*/
 
 	// create a unit1 for the gain
 	unitInfo.id = 1;
 	unitInfo.parentUnitId = kRootUnitId;	// attached to the root unit
-	
+
 	Steinberg::UString (unitInfo.name, USTRINGSIZE (unitInfo.name)).assign (USTRING ("Unit1"));
-	
+
 	unitInfo.programListId = kNoProgramListId;
-	
+
 	unit = new Unit (unitInfo);
 	addUnit (unit);
 
 	//---Create Parameters------------
-	
+
 	//---Gain parameter--
 	GainParameter* gainParam = new GainParameter (ParameterInfo::kCanAutomate, kGainId);
 	parameters.addParameter (gainParam);
@@ -178,18 +142,18 @@ tresult PLUGIN_API AGainController::initialize (FUnknown* context)
 
 	String str ("Hello World!");
 	str.copyTo16 (defaultMessageText, 0, 127);
-	
+
 	return result;
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API AGainController::terminate  ()
+tresult PLUGIN_API MathReverbController::terminate  ()
 {
 	return EditControllerEx1::terminate ();
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API AGainController::setComponentState (IBStream* state)
+tresult PLUGIN_API MathReverbController::setComponentState (IBStream* state)
 {
 	// we receive the current state of the component (processor part)
 	// we read only the gain and bypass value...
@@ -208,7 +172,7 @@ tresult PLUGIN_API AGainController::setComponentState (IBStream* state)
 
 		// jump the GainReduction
 		state->seek (sizeof (float), IBStream::kIBSeekCur);
-	
+
 		// read the bypass
 		int32 bypassState;
 		if (state->read (&bypassState, sizeof (bypassState)) == kResultTrue)
@@ -224,19 +188,19 @@ tresult PLUGIN_API AGainController::setComponentState (IBStream* state)
 }
 
 //------------------------------------------------------------------------
-IPlugView* PLUGIN_API AGainController::createView (const char* name)
+IPlugView* PLUGIN_API MathReverbController::createView (const char* name)
 {
 	// someone wants my editor
 	if (name && strcmp (name, "editor") == 0)
 	{
-		VST3Editor* view = new VST3Editor (this, "view", "again.uidesc");
+		VST3Editor* view = new VST3Editor (this, "view", "mathreverb.uidesc");
 		return view;
 	}
 	return 0;
 }
 
 //------------------------------------------------------------------------
-IController* AGainController::createSubController (UTF8StringPtr name,
+IController* MathReverbController::createSubController (UTF8StringPtr name,
                                                    const IUIDescription* /*description*/,
                                                    VST3Editor* /*editor*/)
 {
@@ -250,7 +214,7 @@ IController* AGainController::createSubController (UTF8StringPtr name,
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API AGainController::setState (IBStream* state)
+tresult PLUGIN_API MathReverbController::setState (IBStream* state)
 {
 	tresult result = kResultFalse;
 
@@ -276,12 +240,12 @@ tresult PLUGIN_API AGainController::setState (IBStream* state)
 	// update our editors
 	for (UIMessageControllerList::iterator it = uiMessageControllers.begin (), end = uiMessageControllers.end (); it != end; ++it)
 		(*it)->setMessageText (defaultMessageText);
-	
+
 	return result;
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API AGainController::getState (IBStream* state)
+tresult PLUGIN_API MathReverbController::getState (IBStream* state)
 {
 	// here we can save UI settings for example
 
@@ -295,12 +259,12 @@ tresult PLUGIN_API AGainController::getState (IBStream* state)
 }
 
 //------------------------------------------------------------------------
-tresult AGainController::receiveText (const char* text)
+tresult MathReverbController::receiveText (const char* text)
 {
 	// received from Component
 	if (text)
 	{
-		fprintf (stderr, "[AGainController] received: ");
+		fprintf (stderr, "[MathReverbController] received: ");
 		fprintf (stderr, "%s", text);
 		fprintf (stderr, "\n");
 	}
@@ -308,7 +272,7 @@ tresult AGainController::receiveText (const char* text)
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API AGainController::setParamNormalized (ParamID tag, ParamValue value)
+tresult PLUGIN_API MathReverbController::setParamNormalized (ParamID tag, ParamValue value)
 {
 	// called from host to update our parameters state
 	tresult result = EditControllerEx1::setParamNormalized (tag, value);
@@ -316,7 +280,7 @@ tresult PLUGIN_API AGainController::setParamNormalized (ParamID tag, ParamValue 
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API AGainController::getParamStringByValue (ParamID tag, ParamValue valueNormalized, String128 string)
+tresult PLUGIN_API MathReverbController::getParamStringByValue (ParamID tag, ParamValue valueNormalized, String128 string)
 {
 	/* example, but better to use a custom Parameter as seen in GainParameter
 	switch (tag)
@@ -340,7 +304,7 @@ tresult PLUGIN_API AGainController::getParamStringByValue (ParamID tag, ParamVal
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API AGainController::getParamValueByString (ParamID tag, TChar* string, ParamValue& valueNormalized)
+tresult PLUGIN_API MathReverbController::getParamValueByString (ParamID tag, TChar* string, ParamValue& valueNormalized)
 {
 	/* example, but better to use a custom Parameter as seen in GainParameter
 	switch (tag)
@@ -361,13 +325,13 @@ tresult PLUGIN_API AGainController::getParamValueByString (ParamID tag, TChar* s
 }
 
 //------------------------------------------------------------------------
-void AGainController::addUIMessageController (UIMessageController* controller)
+void MathReverbController::addUIMessageController (UIMessageController* controller)
 {
 	uiMessageControllers.push_back (controller);
 }
 
 //------------------------------------------------------------------------
-void AGainController::removeUIMessageController (UIMessageController* controller)
+void MathReverbController::removeUIMessageController (UIMessageController* controller)
 {
 	UIMessageControllerList::const_iterator it = std::find (uiMessageControllers.begin (), uiMessageControllers.end (), controller);
 	if (it != uiMessageControllers.end ())
@@ -375,27 +339,27 @@ void AGainController::removeUIMessageController (UIMessageController* controller
 }
 
 //------------------------------------------------------------------------
-void AGainController::setDefaultMessageText (String128 text)
+void MathReverbController::setDefaultMessageText (String128 text)
 {
 	String tmp (text);
 	tmp.copyTo16 (defaultMessageText, 0, 127);
 }
 
 //------------------------------------------------------------------------
-TChar* AGainController::getDefaultMessageText ()
+TChar* MathReverbController::getDefaultMessageText ()
 {
 	return defaultMessageText;
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API AGainController::queryInterface (const char* iid, void** obj)
+tresult PLUGIN_API MathReverbController::queryInterface (const char* iid, void** obj)
 {
 	QUERY_INTERFACE (iid, obj, IMidiMapping::iid, IMidiMapping)
 	return EditControllerEx1::queryInterface (iid, obj);
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API AGainController::getMidiControllerAssignment (int32 busIndex, int16 /*midiChannel*/,
+tresult PLUGIN_API MathReverbController::getMidiControllerAssignment (int32 busIndex, int16 /*midiChannel*/,
 																 CtrlNumber midiControllerNumber, ParamID& tag)
 {
 	// we support for the Gain parameter all MIDI Channel but only first bus (there is only one!)

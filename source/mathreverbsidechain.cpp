@@ -1,43 +1,7 @@
-//------------------------------------------------------------------------
-// Project     : VST SDK
-//
-// Category    : Examples
-// Filename    : public.sdk/samples/vst/again/source/againsidechain.cpp
-// Created by  : Steinberg, 04/2005
-// Description : AGain Example for VST SDK 3
-//
-//-----------------------------------------------------------------------------
-// LICENSE
-// (c) 2017, Steinberg Media Technologies GmbH, All Rights Reserved
-//-----------------------------------------------------------------------------
-// Redistribution and use in source and binary forms, with or without modification,
-// are permitted provided that the following conditions are met:
-// 
-//   * Redistributions of source code must retain the above copyright notice, 
-//     this list of conditions and the following disclaimer.
-//   * Redistributions in binary form must reproduce the above copyright notice,
-//     this list of conditions and the following disclaimer in the documentation 
-//     and/or other materials provided with the distribution.
-//   * Neither the name of the Steinberg Media Technologies nor the names of its
-//     contributors may be used to endorse or promote products derived from this 
-//     software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-// ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-// WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-// IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-// INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
-// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
-// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
-// OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
-// OF THE POSSIBILITY OF SUCH DAMAGE.
-//-----------------------------------------------------------------------------
-
-#include "againsidechain.h"
-#include "againprocess.h"
-#include "againparamids.h"
-#include "againcids.h"	// for class ids
+#include "mathreverbsidechain.h"
+#include "mathreverbprocess.h"
+#include "mathreverbparamids.h"
+#include "mathreverbcids.h"	// for class ids
 
 #include "pluginterfaces/base/ustring.h"	// for UString128
 #include "pluginterfaces/base/ibstream.h"
@@ -51,14 +15,14 @@ namespace Steinberg {
 namespace Vst {
 
 //------------------------------------------------------------------------
-// AGainWithSideChain Implementation
+// MathReverbWithSideChain Implementation
 //------------------------------------------------------------------------
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API AGainWithSideChain::initialize (FUnknown* context)
+tresult PLUGIN_API MathReverbWithSideChain::initialize (FUnknown* context)
 {
 	//---always initialize the parent-------
-	tresult result = AGain::initialize (context);
+	tresult result = MathReverb::initialize (context);
 	// if everything Ok, continue
 	if (result != kResultOk)
 	{
@@ -72,7 +36,7 @@ tresult PLUGIN_API AGainWithSideChain::initialize (FUnknown* context)
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API AGainWithSideChain::process (ProcessData& data)
+tresult PLUGIN_API MathReverbWithSideChain::process (ProcessData& data)
 {
 	// finally the process function
 	// In this example there are 4 steps:
@@ -95,7 +59,7 @@ tresult PLUGIN_API AGainWithSideChain::process (ProcessData& data)
 			{
 				int32 offsetSamples;
 				double value;
-				int32 numPoints = paramQueue->getPointCount ();				
+				int32 numPoints = paramQueue->getPointCount ();
 				switch (paramQueue->getParameterId ())
 				{
 					case kGainId:
@@ -121,7 +85,7 @@ tresult PLUGIN_API AGainWithSideChain::process (ProcessData& data)
 
 	//---2) Read input events-------------
 	IEventList* eventList = data.inputEvents;
-	if (eventList) 
+	if (eventList)
 	{
 		int32 numEvent = eventList->getEventCount ();
 		for (int32 i = 0; i < numEvent; i++)
@@ -164,7 +128,7 @@ tresult PLUGIN_API AGainWithSideChain::process (ProcessData& data)
 	void** in = getChannelBuffersPointer (data.inputs[0]);
 	void** out = getChannelBuffersPointer (data.outputs[0]);
 	void** auxIn = 0;
-	
+
 	bool auxActive = false;
 	if (getAudioInput (1)->isActive ())
 	{
@@ -219,8 +183,8 @@ tresult PLUGIN_API AGainWithSideChain::process (ProcessData& data)
 		{
 			gain = gain * 0.5f;
 		}
-		
-		// if the applied gain is nearly zero, we could say that the outputs are zeroed and we set the silence flags. 
+
+		// if the applied gain is nearly zero, we could say that the outputs are zeroed and we set the silence flags.
 		if (gain < 0.0000001)
 		{
 			for (int32 i = 0; i < numChannels; i++)
@@ -256,7 +220,7 @@ tresult PLUGIN_API AGainWithSideChain::process (ProcessData& data)
 
 		//---3) Write outputs parameter changes-----------
 		IParameterChanges* outParamChanges = data.outputParameterChanges;
-		// a new value of VuMeter will be send to the host 
+		// a new value of VuMeter will be send to the host
 		// (the host will send it back in sync to our controller for updating our editor)
 		if (outParamChanges && fVuPPMOld != fVuPPM)
 		{
@@ -265,7 +229,7 @@ tresult PLUGIN_API AGainWithSideChain::process (ProcessData& data)
 			if (paramQueue)
 			{
 				int32 index2 = 0;
-				paramQueue->addPoint (0, fVuPPM, index2); 
+				paramQueue->addPoint (0, fVuPPM, index2);
 			}
 		}
 		fVuPPMOld = fVuPPM;
@@ -276,7 +240,7 @@ tresult PLUGIN_API AGainWithSideChain::process (ProcessData& data)
 
 //------------------------------------------------------------------------
 template <typename SampleType>
-SampleType AGainWithSideChain::processAudioWithSideChain (SampleType** in, SampleType** out,
+SampleType MathReverbWithSideChain::processAudioWithSideChain (SampleType** in, SampleType** out,
                                                           SampleType** aux, int32 numChannels,
                                                           int32 sampleFrames, float gain)
 {
@@ -307,7 +271,7 @@ SampleType AGainWithSideChain::processAudioWithSideChain (SampleType** in, Sampl
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API AGainWithSideChain::setBusArrangements (SpeakerArrangement* inputs, int32 numIns,
+tresult PLUGIN_API MathReverbWithSideChain::setBusArrangements (SpeakerArrangement* inputs, int32 numIns,
                                                            SpeakerArrangement* outputs,
                                                            int32 numOuts)
 {
@@ -340,18 +304,18 @@ tresult PLUGIN_API AGainWithSideChain::setBusArrangements (SpeakerArrangement* i
 			if (bus)
 			{
 				tresult result = kResultFalse;
-		
+
 				// the host wants 2->2 (could be LsRs -> LsRs)
 				if (SpeakerArr::getChannelCount (inputs[0]) == 2 && SpeakerArr::getChannelCount (outputs[0]) == 2)
 				{
 					removeAudioBusses ();
 					addAudioInput  (STR16 ("Stereo In"),  inputs[0]);
 					addAudioOutput (STR16 ("Stereo Out"), outputs[0]);
-				
+
 					// recreate the Mono SideChain input bus
 					addAudioInput  (STR16 ("Mono Aux In"), SpeakerArr::kMono, kAux, 0);
 
-					result = kResultTrue;		
+					result = kResultTrue;
 				}
 				// the host want something different than 1->1 or 2->2 : in this case we want stereo
 				else if (bus->getArrangement () != SpeakerArr::kStereo)
@@ -359,7 +323,7 @@ tresult PLUGIN_API AGainWithSideChain::setBusArrangements (SpeakerArrangement* i
 					removeAudioBusses ();
 					addAudioInput  (STR16 ("Stereo In"),  SpeakerArr::kStereo);
 					addAudioOutput (STR16 ("Stereo Out"), SpeakerArr::kStereo);
-				
+
 					// recreate the Mono SideChain input bus
 					addAudioInput  (STR16 ("Mono Aux In"), SpeakerArr::kMono, kAux, 0);
 
