@@ -35,9 +35,6 @@ public:
 	/** Here we go...the process call */
 	tresult PLUGIN_API process (ProcessData& data) SMTG_OVERRIDE;
 
-	/** Test of a communication channel between controller and component */
-	tresult receiveText (const char* text) SMTG_OVERRIDE;
-
 	/** For persistence */
 	tresult PLUGIN_API setState (IBStream* state) SMTG_OVERRIDE;
 	tresult PLUGIN_API getState (IBStream* state) SMTG_OVERRIDE;
@@ -53,9 +50,6 @@ public:
 
 	/** Asks if a given sample size is supported see \ref SymbolicSampleSizes. */
 	tresult PLUGIN_API canProcessSampleSize (int32 symbolicSampleSize) SMTG_OVERRIDE;
-
-	/** We want to receive message. */
-	tresult PLUGIN_API notify (IMessage* message) SMTG_OVERRIDE;
 
 //------------------------------------------------------------------------
 protected:

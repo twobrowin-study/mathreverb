@@ -8,16 +8,12 @@
 namespace Steinberg {
 namespace Vst {
 
-template <typename T>
-class MathReverbUIMessageController;
-
 //------------------------------------------------------------------------
 // MathReverbController
 //------------------------------------------------------------------------
-class MathReverbController : public EditControllerEx1, public IMidiMapping, public VST3EditorDelegate
+class MathReverbController : public EditControllerEx1, public IMidiMapping
 {
 public:
-	typedef MathReverbUIMessageController<MathReverbController> UIMessageController;
 	//--- ---------------------------------------------------------------------
 	// create function required for Plug-in factory,
 	// it will be called to create new instances of this controller
@@ -34,8 +30,6 @@ public:
 	//---from EditController-----
 	tresult PLUGIN_API setComponentState (IBStream* state) SMTG_OVERRIDE;
 	IPlugView* PLUGIN_API createView (const char* name) SMTG_OVERRIDE;
-	tresult PLUGIN_API setState (IBStream* state) SMTG_OVERRIDE;
-	tresult PLUGIN_API getState (IBStream* state) SMTG_OVERRIDE;
 	tresult PLUGIN_API setParamNormalized (ParamID tag, ParamValue value) SMTG_OVERRIDE;
 	tresult PLUGIN_API getParamStringByValue (ParamID tag, ParamValue valueNormalized,
 	                                          String128 string) SMTG_OVERRIDE;
@@ -50,26 +44,8 @@ public:
 	                                                CtrlNumber midiControllerNumber,
 	                                                ParamID& tag) SMTG_OVERRIDE;
 
-	//---from VST3EditorDelegate-----------
-	IController* createSubController (UTF8StringPtr name, const IUIDescription* description,
-	                                  VST3Editor* editor) SMTG_OVERRIDE;
-
 	DELEGATE_REFCOUNT (EditController)
 	tresult PLUGIN_API queryInterface (const char* iid, void** obj) SMTG_OVERRIDE;
-
-	//---Internal functions-------
-	void addUIMessageController (UIMessageController* controller);
-	void removeUIMessageController (UIMessageController* controller);
-
-	void setDefaultMessageText (String128 text);
-	TChar* getDefaultMessageText ();
-//------------------------------------------------------------------------
-
-private:
-	typedef std::vector<UIMessageController*> UIMessageControllerList;
-	UIMessageControllerList uiMessageControllers;
-
-	String128 defaultMessageText;
 };
 
 //------------------------------------------------------------------------

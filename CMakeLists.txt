@@ -7,7 +7,6 @@ set(mathreverb_sources
 	source/mathreverbentry.cpp
 	source/mathreverbparamids.h
 	source/mathreverbprocess.h
-	source/mathreverbuimessagecontroller.h
 	source/version.h
 )
 

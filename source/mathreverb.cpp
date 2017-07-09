@@ -67,15 +67,6 @@ tresult PLUGIN_API MathReverb::terminate  ()
 //------------------------------------------------------------------------
 tresult PLUGIN_API MathReverb::setActive (TBool state)
 {
-	if (state)
-	{
-		sendTextMessage ("MathReverb::setActive (true)");
-	}
-	else
-	{
-		sendTextMessage ("MathReverb::setActive (false)");
-	}
-
 	// reset the VuMeter value
 	fVuPPMOld = 0.f;
 
@@ -264,19 +255,6 @@ tresult PLUGIN_API MathReverb::process (ProcessData& data)
 }
 
 //------------------------------------------------------------------------
-tresult MathReverb::receiveText (const char* text)
-{
-	// received from Controller
-	fprintf (stderr, "[MathReverb] received: ");
-	fprintf (stderr, "%s", text);
-	fprintf (stderr, "\n");
-
-	bHalfGain = !bHalfGain;
-
-	return kResultOk;
-}
-
-//------------------------------------------------------------------------
 tresult PLUGIN_API MathReverb::setState (IBStream* state)
 {
 	// called when we load a preset, the model has to be reloaded
@@ -439,31 +417,6 @@ tresult PLUGIN_API MathReverb::canProcessSampleSize (int32 symbolicSampleSize)
 		return kResultTrue;
 
 	return kResultFalse;
-}
-
-//------------------------------------------------------------------------
-tresult PLUGIN_API MathReverb::notify (IMessage* message)
-{
-	if (!message)
-		return kInvalidArgument;
-
-	if (!strcmp (message->getMessageID (), "BinaryMessage"))
-	{
-		const void* data;
-		uint32 size;
-		if (message->getAttributes ()->getBinary ("MyData", data, size) == kResultOk)
-		{
-			// we are in UI thread
-			// size should be 100
-			if (size == 100 && ((char*)data)[1] == 1) // yeah...
-			{
-				fprintf (stderr, "[MathReverb] received the binary message!\n");
-			}
-			return kResultOk;
-		}
-	}
-
-	return AudioEffect::notify (message);
 }
 
 //------------------------------------------------------------------------

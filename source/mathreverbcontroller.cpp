@@ -1,6 +1,5 @@
 #include "mathreverbcontroller.h"
 #include "mathreverbparamids.h"
-#include "mathreverbuimessagecontroller.h"
 
 #include "pluginterfaces/base/ibstream.h"
 #include "pluginterfaces/base/ustring.h"
@@ -138,11 +137,6 @@ tresult PLUGIN_API MathReverbController::initialize (FUnknown* context)
 	tag = kBypassId;
 	parameters.addParameter (STR16 ("Bypass"), 0, stepCount, defaultVal, flags, tag);
 
-	//---Custom state init------------
-
-	String str ("Hello World!");
-	str.copyTo16 (defaultMessageText, 0, 127);
-
 	return result;
 }
 
@@ -200,65 +194,6 @@ IPlugView* PLUGIN_API MathReverbController::createView (const char* name)
 }
 
 //------------------------------------------------------------------------
-IController* MathReverbController::createSubController (UTF8StringPtr name,
-                                                   const IUIDescription* /*description*/,
-                                                   VST3Editor* /*editor*/)
-{
-	if (UTF8StringView (name) == "MessageController")
-	{
-		UIMessageController* controller = new UIMessageController (this);
-		addUIMessageController (controller);
-		return controller;
-	}
-	return nullptr;
-}
-
-//------------------------------------------------------------------------
-tresult PLUGIN_API MathReverbController::setState (IBStream* state)
-{
-	tresult result = kResultFalse;
-
-	int8 byteOrder;
-	if ((result = state->read (&byteOrder, sizeof (int8))) != kResultTrue)
-	{
-		return result;
-	}
-	if ((result = state->read (defaultMessageText, 128 * sizeof (TChar))) != kResultTrue)
-	{
-		return result;
-	}
-
-	// if the byteorder doesn't match, byte swap the text array ...
-	if (byteOrder != BYTEORDER)
-	{
-		for (int32 i = 0; i < 128; i++)
-		{
-			SWAP_16 (defaultMessageText[i])
-		}
-	}
-
-	// update our editors
-	for (UIMessageControllerList::iterator it = uiMessageControllers.begin (), end = uiMessageControllers.end (); it != end; ++it)
-		(*it)->setMessageText (defaultMessageText);
-
-	return result;
-}
-
-//------------------------------------------------------------------------
-tresult PLUGIN_API MathReverbController::getState (IBStream* state)
-{
-	// here we can save UI settings for example
-
-	// as we save a Unicode string, we must know the byteorder when setState is called
-	int8 byteOrder = BYTEORDER;
-	if (state->write (&byteOrder, sizeof (int8)) == kResultTrue)
-	{
-		return state->write (defaultMessageText, 128 * sizeof (TChar));
-	}
-	return kResultFalse;
-}
-
-//------------------------------------------------------------------------
 tresult MathReverbController::receiveText (const char* text)
 {
 	// received from Component
@@ -282,73 +217,13 @@ tresult PLUGIN_API MathReverbController::setParamNormalized (ParamID tag, ParamV
 //------------------------------------------------------------------------
 tresult PLUGIN_API MathReverbController::getParamStringByValue (ParamID tag, ParamValue valueNormalized, String128 string)
 {
-	/* example, but better to use a custom Parameter as seen in GainParameter
-	switch (tag)
-	{
-		case kGainId:
-		{
-			char text[32];
-			if (valueNormalized > 0.0001)
-			{
-				sprintf (text, "%.2f", 20 * log10f ((float)valueNormalized));
-			}
-			else
-				strcpy (text, "-oo");
-
-			Steinberg::UString (string, 128).fromAscii (text);
-
-			return kResultTrue;
-		}
-	}*/
 	return EditControllerEx1::getParamStringByValue (tag, valueNormalized, string);
 }
 
 //------------------------------------------------------------------------
 tresult PLUGIN_API MathReverbController::getParamValueByString (ParamID tag, TChar* string, ParamValue& valueNormalized)
 {
-	/* example, but better to use a custom Parameter as seen in GainParameter
-	switch (tag)
-	{
-		case kGainId:
-		{
-			Steinberg::UString wrapper ((TChar*)string, -1); // don't know buffer size here!
-			double tmp = 0.0;
-			if (wrapper.scanFloat (tmp))
-			{
-				valueNormalized = expf (logf (10.f) * (float)tmp / 20.f);
-				return kResultTrue;
-			}
-			return kResultFalse;
-		}
-	}*/
 	return EditControllerEx1::getParamValueByString (tag, string, valueNormalized);
-}
-
-//------------------------------------------------------------------------
-void MathReverbController::addUIMessageController (UIMessageController* controller)
-{
-	uiMessageControllers.push_back (controller);
-}
-
-//------------------------------------------------------------------------
-void MathReverbController::removeUIMessageController (UIMessageController* controller)
-{
-	UIMessageControllerList::const_iterator it = std::find (uiMessageControllers.begin (), uiMessageControllers.end (), controller);
-	if (it != uiMessageControllers.end ())
-		uiMessageControllers.erase (it);
-}
-
-//------------------------------------------------------------------------
-void MathReverbController::setDefaultMessageText (String128 text)
-{
-	String tmp (text);
-	tmp.copyTo16 (defaultMessageText, 0, 127);
-}
-
-//------------------------------------------------------------------------
-TChar* MathReverbController::getDefaultMessageText ()
-{
-	return defaultMessageText;
 }
 
 //------------------------------------------------------------------------
