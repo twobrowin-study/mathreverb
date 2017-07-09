@@ -1,5 +1,4 @@
 #include "mathreverb.h"	// for MathReverb
-#include "mathreverbsidechain.h"	// for MathReverb SideChain
 #include "mathreverbcontroller.h" // for MathReverbController
 #include "mathreverbcids.h"	// for class ids
 #include "version.h"	// for versioning
@@ -7,7 +6,6 @@
 #include "public.sdk/source/main/pluginfactoryvst3.h"
 
 #define stringPluginName "MathReverb VST3"
-#define stringPluginSideChainName "MathReverb SideChain VST3"
 
 //------------------------------------------------------------------------
 //  Module init/exit
@@ -62,17 +60,6 @@ BEGIN_FACTORY_DEF ("BMSTU dev by Dubrovin Egor",
 				FULL_VERSION_STR,		// Plug-in version (to be changed)
 				kVstVersionString,		// the VST 3 SDK version (dont changed this, use always this define)
 				Steinberg::Vst::MathReverbController::createInstance)// function pointer called when this component should be instanciated
-
-	//---Second Plug-in (MathReverb with sidechain (only component, use the same controller) included in this factory-------
-	DEF_CLASS2 (INLINE_UID_FROM_FUID(MathReverbWithSideChainProcessorUID),
-				PClassInfo::kManyInstances,	// cardinality
-				kVstAudioEffectClass,		// the component category (dont changed this)
-				stringPluginSideChainName,	// here the Plug-in name (to be changed)
-				Vst::kDistributable,	// means that component and controller could be distributed on different computers
-				"Fx",					// Subcategory for this Plug-in (to be changed)
-				FULL_VERSION_STR,		// Plug-in version (to be changed)
-				kVstVersionString,		// the VST 3 SDK version (dont changed this, use always this define)
-				Steinberg::Vst::MathReverbWithSideChain::createInstance)	// function pointer called when this component should be instanciated
 
 	//----for others Plug-ins contained in this factory, put like for the first Plug-in different DEF_CLASS2---
 

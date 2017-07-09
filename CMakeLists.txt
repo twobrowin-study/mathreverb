@@ -23,8 +23,6 @@ set(mathreverb_sources
 	source/mathreverbentry.cpp
 	source/mathreverbparamids.h
 	source/mathreverbprocess.h
-	source/mathreverbsidechain.cpp
-	source/mathreverbsidechain.h
 	source/mathreverbuimessagecontroller.h
 	source/version.h
 )
