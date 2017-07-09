@@ -1,8 +1,0 @@
-#include "public.sdk/source/vst/vst2wrapper/vst2wrapper.h"
-#include "mathreverbcids.h"	// for class ids
-
-//------------------------------------------------------------------------
-::AudioEffect* createEffectInstance (audioMasterCallback audioMaster)
-{
-	return Steinberg::Vst::Vst2Wrapper::create (GetPluginFactory (), Steinberg::Vst::AGainProcessorUID, 'GnV2', audioMaster);
-}
