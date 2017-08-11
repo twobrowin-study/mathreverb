@@ -12,7 +12,6 @@
 		<view bitmap="background" background-offset="0, 0" class="CTextEdit" control-tag="Unit1::Gain" default-value="0.5" font="~ NormalFontSmall" font-antialias="true" font-color="~ WhiteCColor" frame-color="~ GreyCColor" frame-width="1" immediate-text-change="false" max-value="1" min-value="0" mouse-enabled="true" opacity="1" origin="230, 90" round-rect-radius="6" shadow-color="~ BlackCColor" size="90, 18" style-3D-in="false" style-3D-out="false" style-doubleclick="false" style-no-draw="false" style-no-frame="false" style-no-text="false" style-round-rect="true" style-shadow-text="false" text-alignment="center" text-inset="5, 0" text-rotation="0" title="0.00" transparent="false" value-precision="2" wheel-inc-value="0.1"/>
 		<view background-offset="0, 0" bitmap="vu_on" class="CVuMeter" control-tag="Root::VuPPM" decrease-step-value="0.1" default-value="0" max-value="1" min-value="0" mouse-enabled="false" num-led="100" off-bitmap="vu_off" opacity="1" orientation="vertical" origin="430, 7" size="12, 105" transparent="false" wheel-inc-value="0.1"/>
 	</template>
-	<variables/>
 	<bitmaps>
 		<bitmap name="background" path="background.png"/>
 		<bitmap name="slider_background" path="slider_background.png"/>
