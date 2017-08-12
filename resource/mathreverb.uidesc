@@ -4,7 +4,7 @@
 	<!-- View section -->
 	<template name="view" class="CViewContainer" size="450, 300" bitmap="background">
 		<view class="CTextLabel" title="MathReverb" bitmap="background" size="410, 28" origin="10, 10" font="~ NormalFontVeryBig"/>
-		<view class="CTextLabel" title="Gain:" bitmap="background" size="80, 18" origin="105, 90"/>
+		<view class="CTextLabel" title="Gain:" bitmap="background" size="30, 18" origin="95, 90"/>
 		<view class="CSlider" control-tag="Unit1::Gain" orientation="horizontal" size="165, 18" origin="130, 90" bitmap="slider_background" handle-bitmap="slider_handle" handle-offset="0, 2" wheel-inc-value="0.1"/>
 		<view class="CTextEdit" control-tag="Unit1::Gain" title="0.00" size="30, 18" origin="305, 90" bitmap="background" font="~ NormalFontSmall"/>
 		<view class="CVuMeter" control-tag="Root::VuPPM" bitmap="vu_on" off-bitmap="vu_off" size="12, 105" origin="430, 7"/>

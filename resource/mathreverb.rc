@@ -5,7 +5,6 @@
 
 mathreverb.uidesc            DATA  "mathreverb.uidesc"
 slider_handle.png		PNG  "slider_handle.png"
-slider_handle#2x.png	PNG  "slider_handle#2x.png"
 slider_background.png	PNG  "slider_background.png"
 vu_on.png				PNG  "vu_on.png"
 vu_off.png				PNG  "vu_off.png"
