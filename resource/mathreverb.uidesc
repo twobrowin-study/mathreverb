@@ -24,7 +24,6 @@
 	<control-tags>
 		<control-tag name="Root::Bypass" tag="2"/>
 		<control-tag name="Root::VuPPM" tag="1"/>
-		<control-tag name="UI::SendMessage" tag="1000"/>
 		<control-tag name="Unit1::Gain" tag="0"/>
 	</control-tags>
 
