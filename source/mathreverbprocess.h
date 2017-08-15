@@ -6,7 +6,7 @@ namespace Vst {
 //------------------------------------------------------------------------
 template <typename SampleType>
 SampleType MathReverb::processAudio (SampleType** in, SampleType** out, int32 numChannels,
-                                     int32 sampleFrames, float gain)
+                                     int32 sampleFrames)
 {
 	SampleType vuPPM = 0;
 
@@ -16,18 +16,9 @@ SampleType MathReverb::processAudio (SampleType** in, SampleType** out, int32 nu
 		int32 samples = sampleFrames;
 		SampleType* ptrIn = (SampleType*)in[i];
 		SampleType* ptrOut = (SampleType*)out[i];
-		SampleType tmp;
 		while (--samples >= 0)
 		{
-			// apply gain
-			tmp = (*ptrIn++) * gain;
-			(*ptrOut++) = tmp;
-
-			// check only positive values
-			if (tmp > vuPPM)
-			{
-				vuPPM = tmp;
-			}
+			vuPPM = (*ptrOut++) = (*ptrIn++);
 		}
 	}
 	return vuPPM;

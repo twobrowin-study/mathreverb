@@ -26,21 +26,8 @@ public:
 	/** Called at first after constructor */
 	tresult PLUGIN_API initialize (FUnknown* context) SMTG_OVERRIDE;
 
-	/** Called at the end before destructor */
-	tresult PLUGIN_API terminate () SMTG_OVERRIDE;
-
-	/** Switch the Plug-in on/off */
-	tresult PLUGIN_API setActive (TBool state) SMTG_OVERRIDE;
-
 	/** Here we go...the process call */
 	tresult PLUGIN_API process (ProcessData& data) SMTG_OVERRIDE;
-
-	/** For persistence */
-	tresult PLUGIN_API setState (IBStream* state) SMTG_OVERRIDE;
-	tresult PLUGIN_API getState (IBStream* state) SMTG_OVERRIDE;
-
-	/** Will be called before any process call */
-	tresult PLUGIN_API setupProcessing (ProcessSetup& newSetup) SMTG_OVERRIDE;
 
 	/** Bus arrangement managing: in this example the 'mathreverb' will be mono for mono input/output and
 	 * stereo for other arrangements. */
@@ -56,17 +43,17 @@ protected:
 	//==============================================================================
 	template <typename SampleType>
 	SampleType processAudio (SampleType** input, SampleType** output, int32 numChannels,
-	                         int32 sampleFrames, float gain);
+	                         int32 sampleFrames);
 
 	// our model values
-	float fGain;
-	float fGainReduction;
+	// float fGain;
+	// float fGainReduction;
 	float fVuPPMOld;
 
-	int32 currentProcessMode;
-
-	bool bHalfGain;
-	bool bBypass;
+	// int32 currentProcessMode;
+	//
+	// bool bHalfGain;
+	// bool bBypass;
 };
 
 //------------------------------------------------------------------------
