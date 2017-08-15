@@ -4,8 +4,6 @@
 #define APSTUDIO_READONLY_SYMBOLS
 
 mathreverb.uidesc     DATA  "mathreverb.uidesc"
-slider_handle.png		  PNG   "slider_handle.png"
-slider_background.png	PNG   "slider_background.png"
 vu_on.png				      PNG   "vu_on.png"
 vu_off.png				    PNG   "vu_off.png"
 background.png			  PNG   "background.png"
