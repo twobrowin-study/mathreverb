@@ -8,8 +8,7 @@ namespace Vst {
 //------------------------------------------------------------------------
 // MathReverb: directly derived from the helper class AudioEffect
 //------------------------------------------------------------------------
-class MathReverb : public AudioEffect
-{
+class MathReverb : public AudioEffect {
 public:
 	MathReverb ();
 	virtual ~MathReverb (); // do not forget virtual here
@@ -33,8 +32,7 @@ public:
 protected:
 	//==============================================================================
 	template <typename SampleType>
-	SampleType processAudio (SampleType** input, SampleType** output, int32 numChannels,
-	                         int32 sampleFrames);
+	SampleType processAudio (SampleType** input, SampleType** output, int32 numChannels, int32 sampleFrames);
 
 	// our model values
 	float fVuPPMOld;

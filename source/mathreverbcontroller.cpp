@@ -18,11 +18,9 @@ namespace Vst {
 //------------------------------------------------------------------------
 // MathReverbController Implementation
 //------------------------------------------------------------------------
-tresult PLUGIN_API MathReverbController::initialize (FUnknown* context)
-{
+tresult PLUGIN_API MathReverbController::initialize (FUnknown* context) {
 	tresult result = EditControllerEx1::initialize (context);
-	if (result != kResultOk)
-	{
+	if (result != kResultOk) {
 		return result;
 	}
 
@@ -37,11 +35,9 @@ tresult PLUGIN_API MathReverbController::initialize (FUnknown* context)
 }
 
 //------------------------------------------------------------------------
-IPlugView* PLUGIN_API MathReverbController::createView (const char* name)
-{
+IPlugView* PLUGIN_API MathReverbController::createView (const char* name) {
 	// someone wants my editor
-	if (name && strcmp (name, "editor") == 0)
-	{
+	if (name && strcmp (name, "editor") == 0) {
 		VST3Editor* view = new VST3Editor (this, "view", "mathreverb.uidesc");
 		return view;
 	}
