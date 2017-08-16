@@ -29,15 +29,6 @@ public:
 	/** Here we go...the process call */
 	tresult PLUGIN_API process (ProcessData& data) SMTG_OVERRIDE;
 
-	/** Bus arrangement managing: in this example the 'mathreverb' will be mono for mono input/output and
-	 * stereo for other arrangements. */
-	tresult PLUGIN_API setBusArrangements (SpeakerArrangement* inputs, int32 numIns,
-	                                       SpeakerArrangement* outputs,
-	                                       int32 numOuts) SMTG_OVERRIDE;
-
-	/** Asks if a given sample size is supported see \ref SymbolicSampleSizes. */
-	tresult PLUGIN_API canProcessSampleSize (int32 symbolicSampleSize) SMTG_OVERRIDE;
-
 //------------------------------------------------------------------------
 protected:
 	//==============================================================================
@@ -46,14 +37,7 @@ protected:
 	                         int32 sampleFrames);
 
 	// our model values
-	// float fGain;
-	// float fGainReduction;
 	float fVuPPMOld;
-
-	// int32 currentProcessMode;
-	//
-	// bool bHalfGain;
-	// bool bBypass;
 };
 
 //------------------------------------------------------------------------
