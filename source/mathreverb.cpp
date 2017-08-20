@@ -93,11 +93,9 @@ tresult PLUGIN_API MathReverb::process (ProcessData& data) {
 	float fVuPPM = 0.f;
 
 	if (data.symbolicSampleSize == kSample32)
-		fVuPPM = processAudio<Sample32> ((Sample32**)in, (Sample32**)out, numChannels,
-		                                 data.numSamples);
+		fVuPPM = processAudio<Sample32> ((Sample32**)in, (Sample32**)out, numChannels, data.numSamples);
 	else
-		fVuPPM = processAudio<Sample64> ((Sample64**)in, (Sample64**)out, numChannels,
-		                                 data.numSamples);
+		fVuPPM = processAudio<Sample64> ((Sample64**)in, (Sample64**)out, numChannels, data.numSamples);
 
 	//---3) Write outputs parameter changes-----------
 	IParameterChanges* outParamChanges = data.outputParameterChanges;

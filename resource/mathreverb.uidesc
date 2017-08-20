@@ -4,7 +4,8 @@
 	<!-- View section -->
 	<template name="view" class="CViewContainer" size="450, 300" bitmap="background">
 		<view class="CTextLabel" title="MathReverb" bitmap="background" size="410, 28" origin="10, 10" font="~ NormalFontVeryBig"/>
-		<view class="CVuMeter" control-tag="Root::VuPPM" bitmap="vu_on" off-bitmap="vu_off" size="12, 105" origin="430, 7"/>
+		<view class="CVuMeter" control-tag="VuPPM" bitmap="vu_on" off-bitmap="vu_off" size="12, 105" origin="430, 7"/>
+		<view class="CTextEdit" control-tag="Gain" title="0" bitmap="background" size="30, 28" origin="10, 200"/>
 	</template>
 
 	<!-- Bitmaps section -->
@@ -16,7 +17,8 @@
 
 	<!-- Tags section -->
 	<control-tags>
-		<control-tag name="Root::VuPPM" tag="0"/>
+		<control-tag name="VuPPM" tag="0"/>
+		<control-tag name="Gain" tag="1"/>
 	</control-tags>
 
 	<!-- Fonts section -->

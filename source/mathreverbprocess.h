@@ -15,7 +15,8 @@ SampleType MathReverb::processAudio (SampleType** in, SampleType** out, int32 nu
 		SampleType* ptrIn = (SampleType*)in[i];
 		SampleType* ptrOut = (SampleType*)out[i];
 		while (--samples >= 0) {
-			tmp = (*ptrOut++) = (*ptrIn++);
+			 tmp = (*ptrIn++) * gain;
+			 (*ptrOut++) = tmp;
 			if (tmp > vuPPM)
 				vuPPM = tmp;
 		}

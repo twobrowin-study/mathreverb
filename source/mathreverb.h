@@ -36,6 +36,7 @@ protected:
 
 	// our model values
 	float fVuPPMOld;
+	float gain;
 };
 
 //------------------------------------------------------------------------
