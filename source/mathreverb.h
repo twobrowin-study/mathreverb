@@ -32,11 +32,10 @@ public:
 protected:
 	//==============================================================================
 	template <typename SampleType>
-	SampleType processAudio (SampleType** input, SampleType** output, int32 numChannels, int32 sampleFrames);
+	SampleType processAudio (SampleType** input, SampleType** output, int32 numChannels, int32 sampleFrames, float gain);
 
 	// our model values
 	float fVuPPMOld;
-	float gain;
 };
 
 //------------------------------------------------------------------------

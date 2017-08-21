@@ -9,6 +9,8 @@
 
 #include "vstgui/uidescription/delegationcontroller.h"
 
+#include "mathreverbparams/gain.h"
+
 #include <stdio.h>
 #include <math.h>
 
@@ -23,6 +25,22 @@ tresult PLUGIN_API MathReverbController::initialize (FUnknown* context) {
 	if (result != kResultOk) {
 		return result;
 	}
+
+	//---Create Unit for Gain---
+	UnitInfo unitInfo;
+	Unit* unit;
+
+	unitInfo.id = 1;
+	unitInfo.parentUnitId = kRootUnitId;
+	unitInfo.programListId = kNoProgramListId;
+
+	unit = new Unit (unitInfo);
+	addUnit (unit);
+
+	//---Gaint parameter---
+	GainParameter* gainParam = new GainParameter (ParameterInfo::kCanAutomate, kGainId);
+	parameters.addParameter (gainParam);
+	gainParam->setUnitID (unitInfo.id);
 
 	//---VuMeter parameter---
 	int32 stepCount = 0;

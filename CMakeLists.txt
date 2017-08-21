@@ -8,6 +8,7 @@ set(mathreverb_sources
 	source/mathreverbparamids.h
 	source/mathreverbprocess.h
 	source/version.h
+	source/mathreverbparams/gain.h
 )
 
 set(target mathreverb)
