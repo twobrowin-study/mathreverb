@@ -17,7 +17,7 @@ namespace Vst {
 //------------------------------------------------------------------------
 // MathReverb Implementation
 //------------------------------------------------------------------------
-MathReverb::MathReverb () :fVuPPMOld (0.f) {
+MathReverb::MathReverb () :fVuPPMOld (0.f), fGain (1.f) {
 	// register its editor class (the same than used in mathreverbentry.cpp)
 	setControllerClass (MathReverbControllerUID);
 }
@@ -53,8 +53,23 @@ tresult PLUGIN_API MathReverb::process (ProcessData& data) {
 	// 3) Process the gain of the input buffer to the output buffer
 	// 4) Write the new VUmeter value to the output Parameters queue
 
+	//---1) Read inputs param changes------
+	IParameterChanges* paramChanges = data.inputParameterChanges;
+	if (paramChanges) {
+		for (int32 i = 0; i < paramChanges->getParameterCount (); i++) {
+			IParamValueQueue* paramQueue = paramChanges->getParameterData (i);
+			if (paramQueue) {
+				ParamValue value;
+				int32 sampleOffset;
+				int32 numPoints = paramQueue->getPointCount ();
+				if ( (paramQueue->getParameterId () == kGainId) && (paramQueue->getPoint (numPoints - 1, sampleOffset, value) == kResultTrue) )
+					fGain = (float)value;
+			}
+		}
+	}
+
 	//-------------------------------------
-	//---3) Process Audio---------------------
+	//---3) Process Audio------------------
 	//-------------------------------------
 	if (data.numInputs == 0 || data.numOutputs == 0) {
 		// nothing to do
@@ -93,9 +108,9 @@ tresult PLUGIN_API MathReverb::process (ProcessData& data) {
 	float fVuPPM = 0.f;
 
 	if (data.symbolicSampleSize == kSample32)
-		fVuPPM = processAudio<Sample32> ((Sample32**)in, (Sample32**)out, numChannels, data.numSamples, 1.0); // NOTE: change to gain!!!!!
+		fVuPPM = processAudio<Sample32> ((Sample32**)in, (Sample32**)out, numChannels, data.numSamples);
 	else
-		fVuPPM = processAudio<Sample64> ((Sample64**)in, (Sample64**)out, numChannels, data.numSamples, 1.0);
+		fVuPPM = processAudio<Sample64> ((Sample64**)in, (Sample64**)out, numChannels, data.numSamples);
 
 	//---3) Write outputs parameter changes-----------
 	IParameterChanges* outParamChanges = data.outputParameterChanges;
