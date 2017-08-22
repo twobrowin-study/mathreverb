@@ -53,6 +53,17 @@ tresult PLUGIN_API MathReverbController::initialize (FUnknown* context) {
 }
 
 //------------------------------------------------------------------------
+tresult PLUGIN_API MathReverbController::setComponentState (IBStream* state) {
+	if (state) {
+		float receivedGain = 0.f;
+		if (state->read (&receivedGain, sizeof (float)) != kResultTrue)
+			return kResultFalse;
+		setParamNormalized (kGainId, receivedGain);
+	}
+	return kResultTrue;
+}
+
+//------------------------------------------------------------------------
 IPlugView* PLUGIN_API MathReverbController::createView (const char* name) {
 	// someone wants my editor
 	if (name && strcmp (name, "editor") == 0) {

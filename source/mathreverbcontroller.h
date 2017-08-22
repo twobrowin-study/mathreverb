@@ -26,6 +26,7 @@ public:
 
 	//---from EditController-----
 	IPlugView* PLUGIN_API createView (const char* name) SMTG_OVERRIDE;
+	tresult PLUGIN_API setComponentState (IBStream* state) SMTG_OVERRIDE;
 };
 
 //------------------------------------------------------------------------
