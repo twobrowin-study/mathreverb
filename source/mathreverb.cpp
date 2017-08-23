@@ -112,7 +112,7 @@ tresult PLUGIN_API MathReverb::process (ProcessData& data) {
 	else
 		fVuPPM = processAudio<Sample64> ((Sample64**)in, (Sample64**)out, numChannels, data.numSamples);
 
-	//---3) Write outputs parameter changes-----------
+	//---4) Write outputs parameter changes-----------
 	IParameterChanges* outParamChanges = data.outputParameterChanges;
 	// a new value of VuMeter will be send to the host
 	// (the host will send it back in sync to our controller for updating our editor)
