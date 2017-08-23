@@ -93,9 +93,8 @@ tresult PLUGIN_API MathReverb::process (ProcessData& data) {
 		// the Plug-in has to be sure that if it sets the flags silence that the output buffer are clear
 		for (int32 i = 0; i < numChannels; i++) {
 			// dont need to be cleared if the buffers are the same (in this case input buffer are already cleared by the host)
-			if (in[i] != out[i]) {
+			if (in[i] != out[i])
 				memset (out[i], 0, sampleFramesSize);
-			}
 		}
 
 		// nothing to do at this point
