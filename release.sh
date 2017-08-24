@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Keys and varibles section
+mvdir="./"
 while [ -n "$1" ]; do
   case "$1" in
     -r) cmake_clean=true;;
@@ -27,7 +28,7 @@ fi
 powershell "msbuild.exe vst3sdk\build\public.sdk\samples\vst\mathreverb\mathreverb.vcxproj /t:Build /p:Configuration=Release"
 
 # Move result to destanation
-mv vst3sdk/build/VST3/Release/mathreverb.vst3 "$mvdir"./
+mv vst3sdk/build/VST3/Release/mathreverb.vst3 "$mvdir"
 
 # Destroy environment if need to
 if [ "$destroy" ]; then
