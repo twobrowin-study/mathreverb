@@ -1,6 +1,11 @@
 #!/bin/bash
 
-# Varables and keys section
+# Varables section
+cmake_clean="./"
+mvdir="./"
+destroy="./"
+
+# Keys section
 while [ -n "$1" ]; do
   case "$1" in
     -r) cmake_clean="rm -r vst3sdk/build/*; cmake.exe -G'Visual Studio 14 2015 Win64' ../";;
