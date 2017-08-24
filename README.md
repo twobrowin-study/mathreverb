@@ -21,4 +21,4 @@
   * `-m` - Move plugin into standart VST3 folder (C:\Program Files\Common Files\VST3)
 
 ## Output
-  Plugin file is `mathreverb.vst3`. ** Project works only in 64 bit mode! **
+  Plugin file is `mathreverb.vst3`. **Project works only in 64 bit mode!**
