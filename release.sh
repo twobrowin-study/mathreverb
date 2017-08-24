@@ -26,8 +26,9 @@ fi
 # Build project
 powershell "msbuild.exe vst3sdk\build\public.sdk\samples\vst\mathreverb\mathreverb.vcxproj /t:Build /p:Configuration=Release"
 
+pwd
 # Move result to destanation
-cp vst3sdk/build/VST3/Release/mathreverb.vst3 "$mvdir"./
+mv vst3sdk/build/VST3/Release/mathreverb.vst3 "$mvdir"./
 
 # Destroy environment if need to
 if [ "$destroy" ]; then
