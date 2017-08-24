@@ -18,7 +18,7 @@ fi
 
 # Create environment if need to
 if [ ! -d vst3sdk/public.sdk/samples/vst/mathreverb ]; then
-  ./build_env.sh
+  ./create_env.sh
 fi
 
 # Build project
