@@ -24,4 +24,4 @@
   Plugin file is `mathreverb.vst3`. **Project works only in 64 bit mode!**
 
 ## Docs
-  Some semi-documentation in Russin language is [here](https://github.com/TwoBroWin/cookbook/tree/master/VST3)
+  Some semi-documentation in Russian language is [here](https://github.com/TwoBroWin/cookbook/tree/master/VST3)
