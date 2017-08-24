@@ -1,0 +1,3 @@
+[submodule "mathreverb_source"]
+	path = mathreverb_source
+	url = https://github.com/TwoBroWin/mathreverb_source.git
