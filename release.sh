@@ -13,7 +13,9 @@ done
 # Clean up build directory if need to
 if [ "$cmake_clean" ]; then
   rm -r vst3sdk/build/*
+  cd vst3sdk/build
   cmake.exe -G'Visual Studio 14 2015 Win64' ../
+  cd ../../
 fi
 
 # Create environment if need to
@@ -25,7 +27,7 @@ fi
 powershell "msbuild.exe vst3sdk\build\public.sdk\samples\vst\mathreverb\mathreverb.vcxproj /t:Build /p:Configuration=Release"
 
 # Move result to destanation
-mv VST3/Release/mathreverb.vst3 "$mvdir"mathreverb.vst3
+mv vst3sdk/build/VST3/Release/mathreverb.vst3 ./"$mvdir"
 
 # Destroy environment if need to
 if [ "$destroy" ]; then
