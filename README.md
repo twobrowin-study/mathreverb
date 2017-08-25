@@ -6,7 +6,7 @@
 
 ## Requires
   * Microsoft Windows (7-10 will do)
-  * [Cygwin](https://cygwin.com/) or any other Bash for Windows realization (MSys or Cmder)
+  * [Cygwin](https://cygwin.com/) or any other Bash for Windows realization
   * Microsoft Visual Studio 2015 - 2017
   * [CMake](https://cmake.org/) for Windows
 
