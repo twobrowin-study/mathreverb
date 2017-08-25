@@ -16,7 +16,7 @@ if [ ! -d vst3sdk/public.sdk/samples/vst/mathreverb ]; then
 fi
 
 # Clean up build directory if need to
-if [ "$cmake_clean" ]; then
+if [ "$cmake_clean" ] && [ "$(ls -A vst3sdk/build)" ]; then
   rm -r vst3sdk/build/*
 fi
 
