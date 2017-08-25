@@ -13,14 +13,18 @@ done
 # Clean up build directory if need to
 if [ "$cmake_clean" ]; then
   rm -r vst3sdk/build/*
-  cd vst3sdk/build
-  cmake.exe -G'Visual Studio 14 2015 Win64' ../
-  cd ../../
 fi
 
 # Create environment if need to
 if [ ! -d vst3sdk/public.sdk/samples/vst/mathreverb ]; then
   ./create_env.sh
+fi
+
+# CMake project if need to
+if [ ! "$(ls -A vst3sdk/build)" ]; then
+  cd vst3sdk/build
+  cmake.exe -G'Visual Studio 14 2015 Win64' ../
+  cd ../../
 fi
 
 # Build project

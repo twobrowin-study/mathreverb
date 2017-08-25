@@ -1,3 +1,6 @@
 [submodule "mathreverb_source"]
 	path = mathreverb_source
 	url = https://github.com/TwoBroWin/mathreverb_source.git
+[submodule "vst3sdk"]
+	path = vst3sdk
+	url = https://github.com/steinbergmedia/vst3sdk.git
