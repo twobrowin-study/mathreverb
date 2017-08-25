@@ -41,7 +41,7 @@ echo "Building project mathreverb.vcxproj"
 powershell "msbuild.exe vst3sdk\build\public.sdk\samples\vst\mathreverb\mathreverb.vcxproj /t:Build /p:Configuration=Release"
 
 # Move result to destanation
-echo "Moving mathreverb.vst3 into $( [ $mvdir ] && echo $mvdir || pwd )"
+echo "Moving mathreverb.vst3 into $( [ "$mvdir" ] && echo "$mvdir" || pwd )"
 mv vst3sdk/build/VST3/Release/mathreverb.vst3 "$mvdir"./
 
 # Destroy environment if need to
