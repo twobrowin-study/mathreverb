@@ -21,8 +21,10 @@ if [ ! -d vst3sdk/public.sdk/samples/vst/mathreverb ]; then
 fi
 
 # CMake project if need to
-if [ ! "$(ls -A vst3sdk/buid)" ]; then
-  cmake.exe -G'Visual Studio 14 2015 Win64' vst3sdk
+if [ ! "$(ls -A vst3sdk/build)" ]; then
+  cd vst3sdk/build
+  cmake.exe -G'Visual Studio 14 2015 Win64' ../
+  cd ../../
 fi
 
 # Build project
