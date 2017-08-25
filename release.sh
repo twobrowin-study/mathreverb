@@ -10,14 +10,14 @@ while [ -n "$1" ]; do
   shift
 done
 
-# Clean up build directory if need to
-if [ "$cmake_clean" ]; then
-  rm -r vst3sdk/build/*
-fi
-
 # Create environment if need to
 if [ ! -d vst3sdk/public.sdk/samples/vst/mathreverb ]; then
   ./create_env.sh
+fi
+
+# Clean up build directory if need to
+if [ "$cmake_clean" ]; then
+  rm -r vst3sdk/build/*
 fi
 
 # CMake project if need to
