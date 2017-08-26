@@ -2,7 +2,7 @@
   This repository contains few Bash scripts for building MathReverb VST3 plugin under Windows.
 
 ## Clonning
-  Run `git clone --recursive https://github.com/TwoBroWin/mathreverb.git`.
+  Run `git clone --recursive https://github.com/TwoBroWin/mathreverb.git`
 
 ## Requires
   * Microsoft Windows (7-10 will do)
@@ -13,7 +13,7 @@
 ## Release script
   This script makes all need work to create VST3 sdk environment, Cmake and build plugin into .vst3 file.
 
-  Usage: `./release.sh [keys]`.
+  Usage: `./release.sh [keys]`
 
 ### Release keys
   * `-r` - Clear build directory and run CMake again (build all libs again)
@@ -22,11 +22,11 @@
 
 ## Create and Destroy environment
   Environment creates automatically when Release script is ran, if key -d is set it will be destroyed.
-  But you can create or destroy environment by using `./create_env.sh` or `./destroy_env.sh`.
+  But you can create or destroy environment by using `./create_env.sh` or `./destroy_env.sh`
 
 ## Update MathReverb Source code
   As base of plugin mathreverb_source (or mathreverb) can be pulled at any environment condition.
-  Just run `./update_src.sh`.
+  Just run `./update_src.sh`
 
 ## Output
   Plugin file is `mathreverb.vst3`. **Project works only in 64 bit mode!**.
