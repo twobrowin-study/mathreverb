@@ -9,7 +9,7 @@ fi
 if [ "$srcdir" ]; then
   echo "Entering mathreverb source directory $srcdir"
   cd "$srcdir"
-  git checkout "@1"
+  git checkout @1
   git pull
 else
   echo "Source directory does not exists"
