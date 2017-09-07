@@ -26,7 +26,7 @@
 
 ## Update MathReverb Source code
   As base of plugin mathreverb_source (or mathreverb) can be pulled at any environment condition.
-  Just run `./update_src.sh`
+  Just run `./update_src.sh master`
 
 ## Output
   Plugin file is `mathreverb.vst3`. **Project works only in 64 bit mode!**.
