@@ -6,6 +6,13 @@ while [ -n "$1" ]; do
     -r) cmake_clean=true;;
     -d) destroy=true;;
     -m) mvdir=/cygdrive/c/"Program Files"/"Common Files"/VST3/;;
+    -u) arg="$2"
+        if [ -n "$arg" ] &&
+           [ "${arg::1}" != "-" ]; then
+            updbranch="$arg"
+        else
+            updbranch=master
+        fi;;
   esac
   shift
 done
@@ -14,6 +21,12 @@ done
 if [ ! -d vst3sdk/public.sdk/samples/vst/mathreverb ]; then
   echo "Creating environment"
   ./create_env.sh
+fi
+
+# Update mathreverb_source if need to
+if [ "$updbranch" ]; then
+    echo "Updating mathreverb_source on branch $(updbranch)"
+    ./update_src.sh "$updbranch"
 fi
 
 # Clean up build directory if need to
