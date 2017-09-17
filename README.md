@@ -20,6 +20,7 @@
   * `-d` - Destroy environment after building (only plugin .vst3 will be after)
   * `-m` - Move plugin into standart VST3 folder (C:\Program Files\Common Files\VST3)
   * `-u [branch]` - Update mathreverb_source repository (if branch is not set, update will be on master brach)
+  * `-f filename` - Start FL Studio 64 with given filename (if there is no given filename ignoring)
 
 ## Create and Destroy environment
   Environment creates automatically when Release script is ran, if key -d is set it will be destroyed.

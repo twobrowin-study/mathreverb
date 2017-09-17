@@ -13,6 +13,13 @@ while [ -n "$1" ]; do
         else
             updbranch=master
         fi;;
+    -f) arg="$2"
+        if [ -n "$arg" ] &&
+           [ "${arg::1}" != "-" ]; then
+            frutyfile="$arg"
+        else
+            echo "Didn't find filename for FL Studio - ignoring"
+        fi;;
   esac
   shift
 done
@@ -61,4 +68,10 @@ mv vst3sdk/build/VST3/Release/mathreverb.vst3 "$mvdir"./
 if [ "$destroy" ]; then
   echo "Destroy environment"
   ./destroy_env.sh
+fi
+
+# Start FL Studio with given filename
+if [ "$frutyfile" ]; then
+  echo "Starting FL Studio"
+  fl64.exe "$frutyfile"
 fi
