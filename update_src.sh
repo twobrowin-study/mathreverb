@@ -7,9 +7,9 @@ else
 fi
 
 if [ -n "$2" ]; then
-    repo="$2"
+    remote="$2"
 else
-    repo=origin
+    remote=origin
 fi
 if [ -d mathreverb_source ];then
   srcdir=mathreverb_source
@@ -20,11 +20,8 @@ fi
 if [ "$srcdir" ]; then
   echo "Entering mathreverb source directory $srcdir"
   cd "$srcdir"
-  echo "Setting branch $branch (or creating it if nesessary)"
-  git checkout "$branch"
-  git checkout -b "$branch" 
   echo "Updating..."
-  git pull $repo $branch
+  git pull $remote $branch
 else
   echo "Source directory does not exists"
 fi
