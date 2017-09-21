@@ -20,8 +20,9 @@ fi
 if [ "$srcdir" ]; then
   echo "Entering mathreverb source directory $srcdir"
   cd "$srcdir"
-  echo "Setting branch $branch"
+  echo "Setting branch $branch (or creating it if nesessary)"
   git checkout "$branch"
+  git checkout -b "$branch" 
   echo "Updating..."
   git pull $repo $branch
 else
