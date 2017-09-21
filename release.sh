@@ -40,7 +40,7 @@ fi
 # Update mathreverb_source if need to
 if [ "$updbranch" ]; then
     echo "Updating mathreverb_source on branch $updbranch"
-    ./update_src.sh "$updbranch $updrepo"
+    ./update_src.sh "$updbranch" "$updrepo"
 fi
 
 # Clean up build directory if need to
