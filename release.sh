@@ -6,12 +6,19 @@ while [ -n "$1" ]; do
     -r) cmake_clean=true;;
     -d) destroy=true;;
     -m) mvdir=/cygdrive/c/"Program Files"/"Common Files"/VST3/;;
-    -u) arg="$2"
-        if [ -n "$arg" ] &&
-           [ "${arg::1}" != "-" ]; then
-            updbranch="$arg"
+    -u) arg_branch="$2"
+        if [ -n "$arg_branch" ] &&
+           [ "${arg_branch::1}" != "-" ]; then
+            updbranch="$arg_branch"
         else
             updbranch=master
+        fi
+        arg_repo="$3"
+        if [ -n "$arg_repo" ] &&
+           [ "${arg_repo::1}" != "-" ]; then
+            updrepo="$arg_repo"
+        else
+            updrepo=origin
         fi;;
     -f) arg="$2"
         if [ -n "$arg" ] &&
@@ -32,8 +39,8 @@ fi
 
 # Update mathreverb_source if need to
 if [ "$updbranch" ]; then
-    echo "Updating mathreverb_source on branch $(updbranch)"
-    ./update_src.sh "$updbranch"
+    echo "Updating mathreverb_source on branch $updbranch"
+    ./update_src.sh "$updbranch $updrepo"
 fi
 
 # Clean up build directory if need to

@@ -19,7 +19,7 @@
   * `-r` - Clear build directory and run CMake again (build all libs again)
   * `-d` - Destroy environment after building (only plugin .vst3 will be after)
   * `-m` - Move plugin into standart VST3 folder (C:\Program Files\Common Files\VST3)
-  * `-u [branch]` - Update mathreverb_source repository (if branch is not set, update will be on master brach)
+  * `-u [branch] [repo]` - Update mathreverb_source repository (if branch is not set, update will be on master brach, default repo in non set case - origin)
   * `-f filename` - Start FL Studio 64 with given filename (if there is no given filename ignoring)
 
 ## Create and Destroy environment
@@ -28,7 +28,7 @@
 
 ## Update MathReverb Source code
   As base of plugin mathreverb_source (or mathreverb) can be pulled at any environment condition.
-  Just run `./update_src.sh master`
+  To update origin/master just run `./update_src.sh`
 
 ## Output
   Plugin file is `mathreverb.vst3`. **Project works only in 64 bit mode!**.
