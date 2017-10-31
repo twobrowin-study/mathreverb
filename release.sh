@@ -14,7 +14,8 @@ while [ -n "$1" ]; do
             updbranch=master
         fi
         arg_repo="$3"
-        if [ -n "$arg_repo" ] &&
+        if [ "${arg_branch::1}" != "-" ] &&
+           [ -n "$arg_repo" ] &&
            [ "${arg_repo::1}" != "-" ]; then
             updrepo="$arg_repo"
         else
