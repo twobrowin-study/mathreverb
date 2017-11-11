@@ -8,14 +8,5 @@ sed -i '\%gitdir: ../.git/modules/mathreverb_source%c\gitdir: ../../../../../.gi
 echo "Changing .git/modules/mathreverb_source/config repository binding"
 sed -i '\%worktree = ../../../mathreverb_source%c\worktree = ../../../vst3sdk/public.sdk/samples/vst/mathreverb' .git/modules/mathreverb_source/config
 
-#echo "Adding empty line into vst3sdk/CMakeLists.txt"
-#echo >> vst3sdk/CMakeLists.txt
-
-#echo "Adding line '# MathReverb plugin' into vst3sdk/CMakeLists.txt"
-#echo "# MathReverb plugin" >> vst3sdk/CMakeLists.txt
-
-#echo "Adding line 'add_subdirectory(../mathreverb_source)' into vst3sdk/CMakeLists.txt"
-#echo "add_subdirectory(../mathreverb_source)" >> vst3sdk/CMakeLists.txt
-
 echo "Makind vst3sdk/build directory"
 mkdir vst3sdk/build
