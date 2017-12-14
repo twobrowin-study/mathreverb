@@ -1,16 +1,18 @@
 #!/bin/sh
 
-if [ -n "$1" ]; then
-    branch="$1"
+arg_remote=$1
+arg_branch=$2
+if [ -n "$arg_remote" ] &&
+   [ "${arg_remote::1}" != "-" ] &&
+   [ -n "$arg_branch" ] &&
+   [ "${arg_branch::1}" != "-" ]; then
+    remote="$arg_remote"
+    branch="$arg_branch"
 else
+    remote=origin
     branch=master
 fi
 
-if [ -n "$2" ]; then
-    remote="$2"
-else
-    remote=origin
-fi
 if [ -d mathreverb_source ];then
   srcdir=mathreverb_source
 elif [ -d vst3sdk/public.sdk/samples/vst/mathreverb ]; then
