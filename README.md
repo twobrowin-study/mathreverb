@@ -19,7 +19,7 @@
   * `-r` - Clear build directory and run CMake again (build all libs again)
   * `-d` - Destroy environment after building (only plugin .vst3 will be after)
   * `-m` - Move plugin into standart VST3 folder (C:\Program Files\Common Files\VST3)
-  * `-u [branch] [repo]` - Update mathreverb_source repository (if branch is not set, update will be on master brach, default repo in non set case - origin)
+  * `-u [remote branch]` - Update mathreverb_source repository (if not set - will be used origin master)
   * `-f filename` - Start FL Studio 64 with given filename (if there is no given filename ignoring)
 
 ## Create and Destroy environment
@@ -34,4 +34,4 @@
   Plugin file is `mathreverb.vst3`. **Project works only in 64 bit mode!**.
 
 ## Docs
-  Some semi-documentation in Russian language is [here](https://github.com/TwoBroWin/cookbook/tree/master/VST3).
+  Some semi-documentation on Russian language is [here](https://github.com/TwoBroWin/cookbook/tree/master/VST3) and [here](https://drive.google.com/open?id=1aXpuvaWZaVSo70sdoA_K74pKW21VSRPT).
