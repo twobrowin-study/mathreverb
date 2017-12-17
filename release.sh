@@ -35,6 +35,9 @@ fi
 if [ -z "$mvdir64" ] && [ -z "$mvdir32" ]; then
     mvdir64="x64"
     mvdir32="x32"
+    echo "Making result dirs"
+    mkdir $mvdir32
+    mkdir $mvdir64
 fi
 
 # Build project in 64bit
