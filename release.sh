@@ -4,8 +4,8 @@
 while [ -n "$1" ]; do
   case "$1" in
     -d) destroy=true;;
-    -m) mvdir64=/cygdrive/c/"Program Files"/"Common Files"/VST3/
-        mvdir32=/cygdrive/c/"Program Files (x86)"/"Common Files"/VST3/;;
+    -m) mvdir64='/cygdrive/c/Program Files/Common Files/VST3'
+        mvdir32='/cygdrive/c/Program Files (x86)/Common Files/VST3';;
     -u) remote=$2
         branch=$3;;
     -f) arg="$2"
