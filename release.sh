@@ -38,9 +38,11 @@ if [ -z "$mvdir64" ] && [ -z "$mvdir32" ]; then
 fi
 
 # Build project in 64bit
+echo "Build in 64 bit mode"
 ./build.sh Win64 ./vst3sdk/build $mvdir64
 
 # Build project in 32bit
+echo "Build in 32 bit mode"
 ./build.sh Win32 ./vst3sdk/build $mvdir32
 
 # Destroy environment if need to
