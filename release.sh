@@ -26,7 +26,7 @@ if [ ! -d vst3sdk/public.sdk/samples/vst/mathreverb ]; then
 fi
 
 # Update mathreverb_source if need to
-if [ "$updbranch" ]; then
+if [ "$remote" ] && [ "$branch" ]; then
     echo "Updating mathreverb_source on $remote/$branch"
     ./update_src.sh "$remote" "$branch"
 fi
