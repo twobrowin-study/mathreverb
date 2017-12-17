@@ -3,9 +3,9 @@
 # Keys and varibles section
 while [ -n "$1" ]; do
   case "$1" in
-    -r) cmake_clean=true;;
     -d) destroy=true;;
-    -m) mvdir=/cygdrive/c/"Program Files"/"Common Files"/VST3/;;
+    -m) mvdir64=/cygdrive/c/"Program Files"/"Common Files"/VST3/
+        mvdir32=/cygdrive/c/"Program Files (x86)"/"Common Files"/VST3/;;
     -u) remote=$2
         branch=$3;;
     -f) arg="$2"
@@ -31,33 +31,17 @@ if [ "$remote" ] && [ "$branch" ]; then
     ./update_src.sh "$remote" "$branch"
 fi
 
-# Clean up build directory if need to
-if [ "$cmake_clean" ] && [ "$(ls -A vst3sdk/build)" ]; then
-  echo "Cleaning vst3sdk/build directory"
-  rm -r vst3sdk/build/*
+# Setting base directories if need to
+if [ -z "$mvdir64" ] && [ -z "$mvdir32" ]; then
+    mvdir64="x64"
+    mvdir32="x32"
 fi
 
-# CMake project if need to
-if [ ! "$(ls -A vst3sdk/build)" ]; then
-  echo "Compiling MS VC 2015 project files"
+# Build project in 64bit
+./build.sh Win64 ./vst3sdk/build $mvdir64
 
-  echo "Entering vst3sdk/build"
-  cd vst3sdk/build
-
-  echo "Compiling... Executing CMake"
-  cmake.exe -G'Visual Studio 14 2015 Win64' ../
-
-  echo "Leaving vst3sdk/build"
-  cd ../../
-fi
-
-# Build project
-echo "Building project mathreverb.vcxproj"
-powershell "msbuild.exe vst3sdk\build\public.sdk\samples\vst\mathreverb\mathreverb.vcxproj /t:Build /p:Configuration=Release"
-
-# Move result to destanation
-echo "Moving mathreverb.vst3 into $( [ "$mvdir" ] && echo "$mvdir" || pwd )"
-mv vst3sdk/build/VST3/Release/mathreverb.vst3 "$mvdir"./
+# Build project in 32bit
+./build.sh Win32 ./vst3sdk/build $mvdir32
 
 # Destroy environment if need to
 if [ "$destroy" ]; then
