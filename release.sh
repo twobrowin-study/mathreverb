@@ -59,7 +59,7 @@ fi
 
 # Building project
 echo "Building"
-./scripts/build.sh $arc ./vst3sdk/build $mvdir $vst2_flag
+./scripts/build.sh $arc ./vst3sdk/build "$mvdir" $vst2_flag
 
 # Destroy environment
 echo "Destroy environment"
