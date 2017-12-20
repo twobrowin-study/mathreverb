@@ -9,12 +9,12 @@ if [ "$1" == "Win64" ]; then
 fi
 
 mvdir=$3
-if [ "$mvdir" == "none" ]
+if [ "$mvdir" == "none" ]; then
     mvdir='.'
 fi
 
 ext='vst3'
-if [ "$4" == "--vst2" ]
+if [ "$4" == "--vst2" ]; then
     ext='dll'
 fi
 
