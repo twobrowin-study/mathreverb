@@ -3,6 +3,9 @@
 if [ $1 == '--vst2' ]; then
     echo "Returning VST2_SDK directory from vst3sdk"
     mkdir VST2_SDK
+    mkdir VST2_SDK/pluginterfaces
+    mkdir VST2_SDK/public.sdk
+    mkdir VST2_SDK/public.sdk/source
     mv vst3sdk/pluginterfaces/vst2.x VST2_SDK/pluginterfaces/vst2.x
     mv vst3sdk/public.sdk/source/vst2.x VST2_SDK/public.sdk/source/vst2.x
     
