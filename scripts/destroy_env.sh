@@ -1,7 +1,5 @@
 #!/bin/bash
 
-cd ../
-
 if [ $1 == '--vst2' ]; then
     echo "Returning VST2_SDK directory from vst3sdk"
     mkdir VST2_SDK

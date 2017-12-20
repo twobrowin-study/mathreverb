@@ -1,7 +1,5 @@
 #!/bin/bash
 
-cd ../
-
 if [ $1 == '--vst2' ]; then
     echo "Moving VST2_SDK directory into vst3sdk"
     cp -r VST2_SDK/. vst3sdk/.

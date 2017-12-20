@@ -1,7 +1,5 @@
 #!/bin/bash
 
-cd ../
-
 builddir=$2
 currdir=$(pwd)
 
