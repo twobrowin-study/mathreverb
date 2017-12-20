@@ -1,5 +1,7 @@
 #!/bin/sh
 
+cd ../
+
 arg_remote=$1
 arg_branch=$2
 if [ -n "$arg_remote" ] &&

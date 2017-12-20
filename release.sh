@@ -3,9 +3,7 @@
 # Keys and varibles section
 while [ -n "$1" ]; do
   case "$1" in
-    -d) destroy=true;;
-    -m) mvdir64='/cygdrive/c/Program Files/Common Files/VST3'
-        mvdir32='/cygdrive/c/Program Files (x86)/Common Files/VST3';;
+    -m) move=$1;;
     -u) remote=$2
         branch=$3;;
     -f) arg="$2"
@@ -15,44 +13,57 @@ while [ -n "$1" ]; do
         else
             echo "Didn't find filename for FL Studio - ignoring"
         fi;;
+    --vst2) vst2_flag=$1;;
+    --win64) win64=$1;;
   esac
   shift
 done
 
-# Create environment if need to
-if [ ! -d vst3sdk/public.sdk/samples/vst/mathreverb ]; then
-  echo "Creating environment"
-  ./create_env.sh
-fi
-
 # Update mathreverb_source if need to
 if [ "$remote" ] && [ "$branch" ]; then
     echo "Updating mathreverb_source on $remote/$branch"
-    ./update_src.sh "$remote" "$branch"
+    ./scripts/update_src.sh "$remote" "$branch"
 fi
 
-# Setting base directories if need to
-if [ -z "$mvdir64" ] && [ -z "$mvdir32" ]; then
-    mvdir64="x64"
-    mvdir32="x32"
-    echo "Making result dirs"
-    mkdir $mvdir32
-    mkdir $mvdir64
+# if VST2 set
+if [ "$vst2_flag" ]; then
+    echo "Selected VST2 mode"
 fi
 
-# Build project in 64bit
-echo "Build in 64 bit mode"
-./build.sh Win64 ./vst3sdk/build $mvdir64
+# Create environment
+echo "Creating environment"
+./scripts/create_env.sh $vst2_flag
 
-# Build project in 32bit
-echo "Build in 32 bit mode"
-./build.sh Win32 ./vst3sdk/build $mvdir32
-
-# Destroy environment if need to
-if [ "$destroy" ]; then
-  echo "Destroy environment"
-  ./destroy_env.sh
+# Setting Win32 params
+arc='Win32'
+mvdir="none"
+if [ "$move" ]; then
+    mvdir='/cygdrive/c/Program Files (x86)/Common Files/VST3'
+    if [ "$vst2_flag" ]; then
+        mvdir='/cygdrive/c/Program Files (x86)/VstPlugins'
+    fi
 fi
+
+# Setting Win64 params if need to
+if [ "$win64" ]; then
+    echo "Selected 64 bit mode"
+    arc='Win64'
+    mvdir="none"
+    if [ "$move" ]; then
+        mvdir='/cygdrive/c/Program Files/Common Files/VST3'
+        if [ "$vst2_flag" ]; then
+            mvdir='/cygdrive/c/Program Files/Common Files/VST2'
+        fi
+    fi
+fi
+
+# Building project
+echo "Building"
+./scripts/build.sh $arc ./vst3sdk/build $mvdir $vst2_flag
+
+# Destroy environment
+echo "Destroy environment"
+./scripts/destroy_env.sh $vst2_flag
 
 # Start FL Studio with given filename
 if [ "$frutyfile" ]; then

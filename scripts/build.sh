@@ -1,11 +1,23 @@
 #!/bin/bash
 
+cd ../
+
 builddir=$2
 currdir=$(pwd)
 
 # If set 64bit else - empty string
 if [ "$1" == "Win64" ]; then
     generation=" $1"
+fi
+
+mvdir=$3
+if [ "$mvdir" == "none" ]
+    mvdir='.'
+fi
+
+ext='vst3'
+if [ "$4" == "--vst2" ]
+    ext='dll'
 fi
 
 echo "Entering $builddir"
@@ -23,6 +35,6 @@ cd $currdir
 echo "Building project mathreverb.vcxproj"
 powershell "msbuild.exe vst3sdk\build\public.sdk\samples\vst\mathreverb\mathreverb.vcxproj /t:Build /p:Configuration=Release"
 
-# Move result to destanation
-echo "Moving mathreverb.vst3 into $3"
-mv vst3sdk/build/VST3/Release/mathreverb.vst3 "$3/mathreverb.vst3"
+# Move result to destination
+echo "Moving mathreverb.vst3 into $mvdir"
+mv vst3sdk/build/VST3/Release/mathreverb.vst3 "$mvdir/mathreverb.$ext"

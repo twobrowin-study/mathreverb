@@ -17,24 +17,25 @@
   Usage: `./release.sh [keys]`
 
 ### Release keys
-  * `-d` - Destroy environment after building (only plugins .vst3 will be after in x64 and x86 directories)
-  * `-m` - Move plugin into standart VST3 folder (C:\Program Files\Common Files\VST3 and C:\Program Files (x86)\Common Files\VST3)
+  * `-m` - Move plugin into standart VST folder (your DAW will find it with no problem)
   * `-u [remote branch]` - Update mathreverb_source repository (if not set - will be used origin master)
   * `-f filename` - Start FL Studio 64 with given filename (if there is no given filename ignoring)
+  * `--vst2` - Compile as VST2 plugin
+  * `--win64` - Compile in 64 bit mode
 
 ## Build project
-  You can manualy build project via `./build.sh generation build_dir move_dir`, where generation can be Win32 or Win64.
+  You can manualy build project via `./build.sh generation build_dir move_dir [--vst2]`, where generation can be Win32 or Win64.
 
 ## Create and Destroy environment
   Environment creates automatically when Release script is ran, if key -d is set it will be destroyed.
-  But you can create or destroy environment by using `./create_env.sh` or `./destroy_env.sh`
+  But you can create or destroy environment by using `./create_env.sh [--vst2]` or `./destroy_env.sh [--vst2]`
 
 ## Update MathReverb Source code
   As base of plugin mathreverb_source (or mathreverb) can be pulled at any environment condition.
   To update origin/master just run `./update_src.sh [remote branch]`
 
 ## Output
-  Plugin files is `mathreverb.vst3`, located in x64 and x86 directories.
+  Plugin files is `mathreverb.vst3` in VST3 mode or `mathreverb.dll` in VST2 mode.
 
 ## Docs
   Some semi-documentation on Russian language is [here](https://github.com/TwoBroWin/cookbook/tree/master/VST3) and [here](https://drive.google.com/open?id=1aXpuvaWZaVSo70sdoA_K74pKW21VSRPT).
