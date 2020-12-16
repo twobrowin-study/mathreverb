@@ -2,7 +2,7 @@
   This repository contains few Bash scripts for building MathReverb VST3 plugin under Windows.
 
 ## Clonning
-  Run `git clone --recursive https://github.com/TwoBroWin/mathreverb.git`
+  Run `git clone --recursive https://github.com/twobrowin-study/mathreverb.git`
 
 ## Requires
   * Microsoft Windows x64 (7-10 will do)
@@ -36,6 +36,3 @@
 
 ## Output
   Plugin files is `mathreverb.vst3` in VST3 mode or `mathreverb.dll` in VST2 mode.
-
-## Docs
-  Some semi-documentation on Russian language is [here](https://github.com/TwoBroWin/cookbook/tree/master/VST3) and [here](https://drive.google.com/open?id=1aXpuvaWZaVSo70sdoA_K74pKW21VSRPT).
